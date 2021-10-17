@@ -13,15 +13,12 @@ import (
 	"golang.design/x/clipboard"
 )
 
-var clipboardHistory [][]byte
-
 func watchImg(wg sync.WaitGroup) {
 	defer wg.Done()
 	context, cancel := context.WithCancel(context.Background())
 	defer cancel()
 	ch := clipboard.Watch(context, clipboard.FmtImage)
 	for data := range ch {
-		setClipboardValue(data)
 		serveFrames(data)
 		fmt.Println(string(data))
 	}
@@ -33,13 +30,9 @@ func watchText(wg sync.WaitGroup) {
 	defer cancel()
 	ch := clipboard.Watch(context, clipboard.FmtText)
 	for data := range ch {
-		setClipboardValue(data)
-		fmt.Println(string(data))
+		add(data)
+		fmt.Println("Add value: " + string(data))
 	}
-}
-
-func setClipboardValue(value []byte) {
-	clipboardHistory = append(clipboardHistory, value)
 }
 
 func serveFrames(imgByte []byte) {
@@ -61,7 +54,6 @@ func serveFrames(imgByte []byte) {
 }
 
 func clipboardManagerInit() {
-	clipboardHistory = make([][]byte, 0)
 	var wg sync.WaitGroup
 
 	wg.Add(1)
@@ -79,9 +71,9 @@ func clipboardManagerInit() {
 }
 
 func getClipboardHistory() []string {
-	result := make([]string, 0)
-	for _, bytes := range clipboardHistory {
-		result = append(result, string(bytes))
+	result := getValues(10)
+	for _, bytes := range result {
+		log.Println(bytes)
 	}
 	return result
 }

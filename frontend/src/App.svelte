@@ -26,15 +26,14 @@
 
 <style>
 	* :global(.clipboard-history) {
-		color: white;
 		list-style-type: none;
 		padding: 0;
-		border: 1px solid #ddd;
+		border: 1px solid grey;
 	}
 
 	* :global(.clipboard-history-item) {
 		padding: 8px 16px;
-  		border-bottom: 1px solid #ddd;
+  		border-bottom: 1px solid grey;
 	}
 
 	* :global(.clipboard-history-item:last-child) {

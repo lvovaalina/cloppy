@@ -6,9 +6,6 @@ import (
 	"github.com/wailsapp/wails"
 )
 
-const serviceName = "cloppy"
-const serviceDescription = "Clipboard Manager"
-
 //go:embed frontend/public/build/bundle.js
 var js string
 
@@ -16,6 +13,8 @@ var js string
 var css string
 
 func main() {
+	connectDB()
+	defer close()
 
 	go clipboardManagerInit()
 
@@ -25,7 +24,6 @@ func main() {
 		Title:  "cloppy",
 		JS:     js,
 		CSS:    css,
-		Colour: "#131313",
 	})
 
 	app.Bind(getClipboardHistory)
