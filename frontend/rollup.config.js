@@ -7,7 +7,6 @@ import image from '@rollup/plugin-image';
 import babel from 'rollup-plugin-babel';
 import polyfill from 'rollup-plugin-polyfill';
 import sveltePreprocess from 'svelte-preprocess';
-import typescript from '@rollup/plugin-typescript';
 
 const production = !process.env.ROLLUP_WATCH;
 

@@ -27,5 +27,6 @@ func main() {
 	})
 
 	app.Bind(getClipboardHistory)
+	app.Bind(setValueToClipboard)
 	app.Run()
 }

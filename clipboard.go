@@ -77,3 +77,8 @@ func getClipboardHistory() []string {
 	}
 	return result
 }
+
+func setValueToClipboard(value string) {
+	changed := clipboard.Write(clipboard.FmtText, []byte(value))
+	log.Println(<-changed)
+}

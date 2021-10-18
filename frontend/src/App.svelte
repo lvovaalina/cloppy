@@ -1,24 +1,34 @@
 <script lang="ts">
 	import List, { Item } from "@smui/list";
 	import Button, { Label } from "@smui/button";
+import { onMount } from "svelte";
 
 	export let clipboardHistory = [];
 
-	const handleRefresh = () => {
+	const updateList = () => {
 		window.backend.getClipboardHistory().then((result) => {
-			console.log(result);
 			clipboardHistory = result;
 		});
 	};
+
+	const setValueToClipboard = (value) => {
+		window.backend.setValueToClipboard(value).then(() => {
+			updateList();
+		});
+	}
+
+	onMount(() => {
+		updateList();
+	})
 </script>
 
 <main>
 	<div class="App">
-		<Button on:click="{handleRefresh}"><Label>Refresh</Label></Button>
+		<Button on:SMUI:action="{updateList}"><Label>Refresh</Label></Button>
 
 		<List class="clipboard-history">
 			{#each clipboardHistory as text}
-				<Item class="clipboard-history-item">{ text }</Item>
+				<Item on:SMUI:action={() => (setValueToClipboard(text))} class="clipboard-history-item">{ text }</Item>
 			{/each}
 		</List>
 	</div>
