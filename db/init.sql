@@ -1,0 +1,4 @@
+CREATE TABLE IF NOT EXISTS history (
+    id INT NOT NULL AUTOINCREMENT
+    insert_datetime DATE
+)
