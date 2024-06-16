@@ -3,7 +3,6 @@ package main
 import (
 	"bytes"
 	"context"
-	"fmt"
 	"image"
 	"image/png"
 	"log"
@@ -28,7 +27,7 @@ func (s *ClipboardService) StartClipboardService(ctx context.Context) {
 
 	wg.Add(1)
 
-	fmt.Println("Main: Starting worker")
+	log.Println("Main: Starting worker")
 	go s.watchText(ctx, &wg)
 
 	wg.Add(1)
@@ -36,8 +35,8 @@ func (s *ClipboardService) StartClipboardService(ctx context.Context) {
 
 	wg.Wait()
 
-	fmt.Println("Main: Waiting for worker to finish")
-	fmt.Println("Main: Completed")
+	log.Println("Main: Waiting for worker to finish")
+	log.Println("Main: Completed")
 }
 
 func (s *ClipboardService) GetClipboardHistory() []string {
@@ -58,7 +57,7 @@ func (s *ClipboardService) watchImg(ctx context.Context, wg *sync.WaitGroup) {
 	ch := clipboard.Watch(ctx, clipboard.FmtImage)
 	for data := range ch {
 		s.serveFrames(data)
-		fmt.Println(string(data))
+		log.Println(string(data))
 	}
 }
 
@@ -68,7 +67,7 @@ func (s *ClipboardService) watchText(ctx context.Context, wg *sync.WaitGroup) {
 	ch := clipboard.Watch(ctx, clipboard.FmtText)
 	for data := range ch {
 		s.repo.Save(data)
-		fmt.Println("Add value: " + string(data))
+		log.Println("Add value: " + string(data))
 	}
 }
 
